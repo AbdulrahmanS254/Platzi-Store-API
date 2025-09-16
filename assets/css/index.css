@@ -174,7 +174,7 @@ body {
 
 .product-card .description {
     font-size: 0.9rem;
-    color: #555;
+    color: #383737;
     height: 40px;
     overflow: hidden;
 }
@@ -182,12 +182,14 @@ body {
 .product-card .category {
     font-size: 0.85rem;
     color: #888;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .product-card .price {
     font-weight: bold;
     margin-top: 0.5rem;
-    color: #116CFF;
+    color: #0062ff;
 }
 
 /* Pagination */

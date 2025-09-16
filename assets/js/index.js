@@ -14,10 +14,10 @@ async function getProducts(pageNum = 1) {
         }
 
         const data = await response.json();
-        if (data.length === 0) {
-            prosContainer.innerHTML = "<p>No more products</p>";
+        if (data.length < 9) {
+            // prosContainer.innerHTML = "<p>No more products</p>";
             next.disabled = true;
-            return;
+            // return;
         } else {
             next.disabled = false;
         }
@@ -26,22 +26,6 @@ async function getProducts(pageNum = 1) {
         console.log("Error", err);
     }
 }
-
-// getProducts().then((data) =>
-//     data.forEach((product) => {
-//         createCard(
-//             product.id,
-//             product.images?.[0],
-//             product.slug,
-//             product.title,
-//             product.description,
-//             product.category.name,
-//             product.price
-//         );
-//     })
-// );
-
-// === (pro) stands for (product) and (pros) is the plural
 
 const prosContainer = document.getElementById("productsGrid");
 
@@ -76,6 +60,7 @@ const createCard = (
 
     const proDescription = document.createElement("p");
     proDescription.classList.add("description");
+    proDescription.classList.add("text-truncate");
     proDescription.textContent = description;
 
     const proCategory = document.createElement("p");
@@ -96,7 +81,7 @@ const createCard = (
     prosContainer.appendChild(cardBody);
 };
 
-// === HANDLING THE PAGINATION ===
+// === HANDLING THE PAGINATION === //
 
 // Pagination buttons
 const prev = document.getElementById("prevPage");
@@ -135,5 +120,59 @@ const renderProducts = (page) => {
         })
     );
 };
+
+// === Filtering with categories ===
+
+// Getting categories from the categories api
+async function getCategories(catId) {
+    try {
+        let response = await fetch(
+            `https://api.escuelajs.co/api/v1/categories`
+        );
+        if (!response.ok) {
+            throw new Error("Status " + response.status);
+        }
+        let data = await response.json();
+        return data;
+    } catch (err) {
+        console.log("Error", err);
+    }
+}
+
+// the select menu and the filtering logic
+const selectCategory = document.getElementById("category");
+
+const minPriceInput = document.getElementById("minPrice");
+const maxPriceInput = document.getElementById("maxPrice");
+
+const applyFilterBtn = document.getElementById("applyFilters");
+const resetFilterBtn = document.getElementById("resetFilters");
+
+const createSelect = (category, id) => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    option.classList.add('option')
+    option.setAttribute("catId", id);
+    selectCategory.appendChild(option);
+};
+
+getCategories().then((data) => {
+    data.forEach((item) => {
+        createSelect(item.name, item.id);
+    });
+});
+
+selectCategory.addEventListener("change", (e) => {
+    let categoryOption = document.querySelectorAll('option');
+});
+
+// Resetting the filter and rerendering the page
+resetFilterBtn.addEventListener("click", (ev) => {
+    selectCategory.value = "all";
+    minPriceInput.value = "";
+    maxPriceInput.value = "";
+    renderProducts(currentPage);
+});
 
 renderProducts(currentPage);
