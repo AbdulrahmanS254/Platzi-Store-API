@@ -79,21 +79,35 @@ const createCard = (
     prosContainer.appendChild(cardBody);
 };
 
+// === MAX & MIN PRICE FILTERING ===
+const minPriceInput = document.getElementById("minPrice");
+const maxPriceInput = document.getElementById("maxPrice");
+
+const filterByPrice = (productsToBeFiltered) => {
+    let max = parseFloat(maxPriceInput.value) || Infinity;
+    let min = parseFloat(minPriceInput.value) || 0;
+
+    return productsToBeFiltered.filter(
+        (item) => item.price >= min && item.price <= max
+    );
+};
+
 const renderProducts = (page) => {
     prosContainer.innerHTML = "";
-        getProducts(page).then((data) =>
-            data.forEach((product) => {
-                createCard(
-                    product.id,
-                    product.images?.[0],
-                    product.slug,
-                    product.title,
-                    product.description,
-                    product.category.name,
-                    product.price
-                );
-            })
-        );
+    getProducts(page).then((data) => {
+        let filtered = filterByPrice(data);
+        filtered.forEach((product) => {
+            createCard(
+                product.id,
+                product.images?.[0],
+                product.slug,
+                product.title,
+                product.description,
+                product.category.name,
+                product.price
+            );
+        });
+    });
 };
 
 // === Filtering with categories ===
@@ -141,8 +155,9 @@ async function getProductsByCategory(pageNum = 1, catId) {
 
 const renderProductsByCategory = (page, cat) => {
     prosContainer.innerHTML = "";
-    getProductsByCategory(page, cat).then((data) =>
-        data.forEach((product) => {
+    getProductsByCategory(page, cat).then((data) => {
+        let filtered = filterByPrice(data);
+        filtered.forEach((product) => {
             createCard(
                 product.id,
                 product.images?.[0],
@@ -152,18 +167,12 @@ const renderProductsByCategory = (page, cat) => {
                 product.category.name,
                 product.price
             );
-        })
-    );
+        });
+    });
 };
 
 // the select menu and the filtering logic
 const selectCategory = document.getElementById("category");
-
-const minPriceInput = document.getElementById("minPrice");
-const maxPriceInput = document.getElementById("maxPrice");
-
-const applyFilterBtn = document.getElementById("applyFilters");
-const resetFilterBtn = document.getElementById("resetFilters");
 
 const createSelect = (category, id) => {
     const option = document.createElement("option");
@@ -181,7 +190,13 @@ getCategories().then((data) => {
 let choosedCategory = null;
 let productsAreFiltered = false;
 
-selectCategory.addEventListener("change", (e) => {
+selectCategory.addEventListener("change", (e) => {});
+
+// Applying filters
+const applyFilterBtn = document.getElementById("applyFilters");
+const resetFilterBtn = document.getElementById("resetFilters");
+
+applyFilterBtn.addEventListener("click", (ev) => {
     choosedCategory = selectCategory.value;
 
     if (choosedCategory === "all") {
