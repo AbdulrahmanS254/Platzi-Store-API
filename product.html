@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Detail | MyStore</title>
+    <link rel="shortcut icon" href="./assets/images/fav.png" type="image/png">
+    <link rel="stylesheet" href="./assets/css/product.css" />
+    <script src="./assets/js/product.js" defer></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="custom-container"> <a href="index.html" class="nav-logo">MyStore</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Products</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="create.html">Create Product</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="custom-container product-page-container">
+        <div id="productContent" class="product-content hidden">
+            <div class="back-link-wrapper">
+                <a href="index.html" class="back-link">&larr; Back to Products</a>
+            </div>
+            <div class="product-layout">
+                <div class="product-image-gallery">
+                    <img id="productImage" src="https://placehold.co/600x600/eee8df/212842?text=..." alt="Product Image"
+                        class="main-image">
+                </div>
+
+                <div class="product-details">
+                    <span id="productCategory" class="product-category">Category</span>
+                    <h1 id="productTitle" class="product-title">Product Title Loading...</h1>
+                    <p id="productDescription" class="product-description">Product description will appear here once
+                        loaded.</p>
+                    <p id="productPrice" class="product-price">$0.00</p>
+                    <button class="btn btn-add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

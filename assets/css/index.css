@@ -175,8 +175,10 @@ body {
 .product-card .description {
     font-size: 0.9rem;
     color: #383737;
-    height: 40px;
+    margin: 10px 0px 15px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-card .category {
